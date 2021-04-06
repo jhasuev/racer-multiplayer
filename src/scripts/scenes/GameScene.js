@@ -6,6 +6,10 @@ export default class GameScene extends Phaser.Scene {
     super("Game")
   }
 
+  init() {
+    this.setEvents()
+  }
+
   preload() {
     console.log("GameScene preload()");
   }
@@ -17,5 +21,13 @@ export default class GameScene extends Phaser.Scene {
 
     this.cameras.main.setBounds(0, 0, this.map.tilemap.widthInPixels, this.map.tilemap.heightInPixels)
     this.cameras.main.startFollow(this.player.car)
+  }
+
+  setEvents() {
+    this.cursors = this.input.keyboard.createCursorKeys()
+  }
+
+  update() {
+    this.player.move()
   }
 }
