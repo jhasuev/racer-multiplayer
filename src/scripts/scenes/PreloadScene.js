@@ -1,6 +1,8 @@
 import LoadingBar from "../classes/LoadingBar"
 import tilesetPng from "../../assets/tileset.png"
 import tilesetJson from "../../assets/tilemap.json"
+import objectsJson from "../../assets/objects.json"
+import objectsPng from "../../assets/objects.png"
 
 export default class Preload extends Phaser.Scene {
   constructor() {
@@ -13,6 +15,7 @@ export default class Preload extends Phaser.Scene {
 
     this.load.spritesheet("tileset", tilesetPng, { frameWidth: 64, frameHeight: 64 })
     this.load.tilemapTiledJSON("tilemap", tilesetJson)
+    this.load.atlas("objects", objectsPng, objectsJson)
   }
 
   create() {
