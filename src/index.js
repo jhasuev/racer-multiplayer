@@ -20,7 +20,7 @@ const config = {
     physics: {
         default: "matter",
         matter: {
-            debug: false,
+            debug: !false,
             gravity: { x: 0, y: 0 },
         },
     },
