@@ -20,6 +20,7 @@ export default class Map {
   create() {
     this.createLayers()
     this.createCollision()
+    this.createCheckpoints()
   }
 
   createLayers() {
@@ -36,6 +37,21 @@ export default class Map {
     })
   }
 
+  createCheckpoints() {
+    this.checkpoints = []
+
+    this.tilemap.findObject("checkpoints", checkpoint => {
+      let rectangle = new Phaser.Geom.Rectangle(checkpoint.x, checkpoint.y, checkpoint.width, checkpoint.height)
+      rectangle.index = checkpoint.properties.find(property => property.name === "value").value
+      this.checkpoints.push(rectangle)
+    })
+  }
+
+  getCheckpoint(car) {
+    const checkpoint = this.checkpoints.find(checkpoint => checkpoint.contains(car.x, car.y))
+    return checkpoint ? checkpoint.index : false
+  }
+
   getPlayerPosition() {
     return this.tilemap.findObject("player", position => position.name === "player")
   }
@@ -47,7 +63,7 @@ export default class Map {
         return ROADS_FRICTION[road]
       }
     }
-    
+
     return GRASS_FRICTION
   }
 }
