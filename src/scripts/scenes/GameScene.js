@@ -11,12 +11,7 @@ export default class GameScene extends Phaser.Scene {
     this.setEvents()
   }
 
-  preload() {
-    console.log("GameScene preload()");
-  }
-
   create() {
-    console.log("GameScene create()");
     this.map = new Map(this)
     this.player = new Player(this, this.map)
 
