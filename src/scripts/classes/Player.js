@@ -3,6 +3,7 @@ const DIRECTIONS = Object.freeze({ BACKWARD: -1, NONE: 0, FORWARD: 1 })
 const TURNS = Object.freeze({ LEFT: -1, NONE: 0, RIGHT: 1 })
 const SPEED = 10
 const ACCELERATION = .5
+const SLIDE_ANGLE = 5
 
 export default class Player {
   constructor(scene, map) {
@@ -65,6 +66,12 @@ export default class Player {
 
   getMaxSpeed() {
     return SPEED * this.map.getTileFriction(this.car)
+  }
+
+  slide() {
+    if (!this._velocity) return; // ...
+
+    this.car.angle += SLIDE_ANGLE
   }
 
   getVelocityFromAngle() {

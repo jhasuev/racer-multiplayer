@@ -21,6 +21,7 @@ export default class Map {
     this.createLayers()
     this.createCollision()
     this.createCheckpoints()
+    this.createOils()
   }
 
   createLayers() {
@@ -44,6 +45,14 @@ export default class Map {
       let rectangle = new Phaser.Geom.Rectangle(checkpoint.x, checkpoint.y, checkpoint.width, checkpoint.height)
       rectangle.index = checkpoint.properties.find(property => property.name === "value").value
       this.checkpoints.push(rectangle)
+    })
+  }
+  
+  createOils() {
+    this.tilemap.findObject("oils", oil => {
+      const sprite = this.scene.matter.add.sprite(oil.x + oil.width / 2, oil.y - oil.height / 2, "objects", oil.name)
+      sprite.setStatic(true)
+      sprite.setSensor(true)
     })
   }
 
