@@ -42,10 +42,11 @@ export default class Player {
 
   get velocity() {
     const speed = Math.abs(this._velocity)
+    const max = this.getMaxSpeed()
 
-    if (this.direction && speed < SPEED) {
+    if (this.direction && speed < max) {
       this._velocity += ACCELERATION * Math.sign(this.direction)
-    } else if (!this.direction && speed) {
+    } else if ((this.direction && speed > max) || (!this.direction && speed)) {
       this._velocity -= ACCELERATION * Math.sign(this._velocity)
     }
 
@@ -54,6 +55,10 @@ export default class Player {
 
   get angle() {
     return this.car.angle + this.turn * SPEED / 5
+  }
+
+  getMaxSpeed() {
+    return SPEED * this.map.getTileFriction(this.car)
   }
 
   getVelocityFromAngle() {
