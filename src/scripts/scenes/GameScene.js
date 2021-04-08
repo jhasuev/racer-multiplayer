@@ -2,6 +2,7 @@ import Map from "../classes/Map"
 import Player from "../classes/Player"
 import Stats from "../classes/Stats"
 import StatsPanel from "../classes/StatsPanel"
+import StatsPopup from "../classes/StatsPopup"
 const LAPS = 3
 
 export default class GameScene extends Phaser.Scene {
@@ -32,10 +33,10 @@ export default class GameScene extends Phaser.Scene {
 
   onLapComplete(lap) {
     this.stats.onLapComplete()
+    
     if (this.stats.complete) {
-      this.scene.restart()
+      this.statsPopup = new StatsPopup(this, this.stats)
     }
-
   }
 
   setEvents() {
