@@ -5,6 +5,7 @@ const DOCROOT = "../dist/"
 const http = require("http")
 const path = require("path")
 const express = require("express")
+const socketIO = require("socket.io")
 
 // 2. создания сервера, используя express и http
 const app = express()
@@ -20,3 +21,8 @@ server.listen(PORT, () => {
   console.log(`server is running on port ${PORT}`);
 })
 
+const io = socketIO(server)
+io.on("connection", socket => {
+  socket.emit("gameStart")
+  console.log(`new user connected ${socket.id}`);
+})
