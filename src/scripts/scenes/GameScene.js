@@ -4,19 +4,38 @@ import Stats from "../classes/Stats"
 import StatsPanel from "../classes/StatsPanel"
 import StatsPopup from "../classes/StatsPopup"
 const LAPS = 3
+const CARS = {
+  BLUE: {
+    sprite: "car_blue_1",
+    position: 'player',
+  },
+  RED: {
+    sprite: "car_red_1",
+    position: 'enemy',
+  },
+}
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
     super("Game")
   }
 
-  init() {
+  init(data) {
+    if (data.client) {
+      this.client = data.client
+    }
     this.setEvents()
   }
 
   create() {
     this.map = new Map(this)
-    this.player = new Player(this, this.map)
+    
+    const car = this.getCarsConfig()
+    this.player = new Player(this, this.map, car.player)
+    if (this.client) {
+      this.enemy = new Player(this, this.map, car.enemy)
+    }
+
     this.stats = new Stats(this, LAPS)
     this.statsPanel = new StatsPanel(this, this.stats)
 
@@ -29,6 +48,17 @@ export default class GameScene extends Phaser.Scene {
         this.player.slide()
       }
     })
+  }
+
+  getCarsConfig() {
+    const config = { player: CARS.BLUE, enemy: CARS.RED }
+
+    if (this.client && !this.client.master) {
+      config.player = CARS.RED
+      config.enemy = CARS.BLUE
+    }
+
+    return config
   }
 
   onLapComplete(lap) {

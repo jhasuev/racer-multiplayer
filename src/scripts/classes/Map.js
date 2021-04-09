@@ -61,8 +61,8 @@ export default class Map {
     return checkpoint ? checkpoint.index : false
   }
 
-  getPlayerPosition() {
-    return this.tilemap.findObject("player", position => position.name === "player")
+  getPlayerPosition(positionName) {
+    return this.tilemap.findObject(positionName, position => position.name === positionName)
   }
 
   getTileFriction(car) {
