@@ -1,4 +1,5 @@
 import Client from "../classes/Client"
+import RequestPreloader from "../classes/RequestPreloader"
 
 export default class StartScene extends Phaser.Scene {
   constructor() {
@@ -67,9 +68,17 @@ export default class StartScene extends Phaser.Scene {
   }
 
   requestGame() {
-    console.log("onTwoPlayer() ...");
-    this.client = new Client()
-    this.client.init()
-    this.client.on("game", this.startGame, this)
+    if (!this.requested) {
+      this.client = new Client()
+      this.client.init()
+      this.client.on("game", this.startGame, this)
+
+      this.createRequestPreloader()
+      this.requested = true
+    }
+  }
+
+  createRequestPreloader() {
+    this.requestPreloader = new RequestPreloader(this)
   }
 }
