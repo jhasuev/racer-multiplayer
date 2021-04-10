@@ -5,8 +5,17 @@ module.exports = {
     this.sessions = []
     this.io = socketIO(server)
     this.io.on("connection", socket => {
+      socket.on("playerMove", data => {
+        this.onPlayerMove(socket, data)
+      })
       this.onConnection(socket)
     })
+  },
+
+  onPlayerMove(socket, data) {
+    const session = this.sessions.find(session => session.playerSocket === socket || session.enemySocket === socket)
+    let enemySocket = session.playerSocket === socket ? session.enemySocket : session.playerSocket
+    enemySocket.emit("enemyMove", data)
   },
 
   getPendingSession() {
